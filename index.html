@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>손실복구 계산기</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.png" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f4f2;
+      text-align: center;
+      padding: 2em;
+    }
+    input, button {
+      padding: 10px;
+      margin: 1em 0;
+      font-size: 1.2em;
+    }
+    .result {
+      font-size: 1.5em;
+      margin-top: 1.5em;
+      color: #226644;
+    }
+  </style>
+</head>
+<body>
+  <h1>손실복구 계산기</h1>
+  <p>현재 손실률(%)을 입력하세요</p>
+  <input type="number" id="loss" placeholder="-40" />
+  <br />
+  <button onclick="calculate()">본전까지 몇 % 올라야 할까?</button>
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculate() {
+      const loss = parseFloat(document.getElementById("loss").value);
+      if (isNaN(loss) || loss >= 0 || loss <= -100) {
+        document.getElementById("result").textContent = "손실률은 -1 ~ -99 사이여야 해요.";
+        return;
+      }
+      const gain = (1 / (1 + loss / 100) - 1) * 100;
+      document.getElementById("result").textContent = `본전까지 ${gain.toFixed(2)}% 올라야 합니다.`;
+    }
+  </script>
+</body>
+</html>
