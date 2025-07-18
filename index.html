@@ -58,11 +58,11 @@
 
   <label for="lossInput">손실률 입력 (예: -40):</label>
   <input
-    type="text"
+    type="tel"
+    inputmode="numeric"
     id="lossInput"
-    value="-"
-    oninput="formatNegativeInput(this)"
-    placeholder="예: -40"
+    placeholder="예: 40"
+    oninput="prependMinus(this)"
   />
 
   <button onclick="calculateRecovery()">복구율 계산</button>
@@ -70,18 +70,22 @@
   <div id="result"></div>
 
   <script>
-    function formatNegativeInput(input) {
-      let val = input.value.replace(/[^0-9]/g, ""); // 숫자만 남김
-      input.value = "-" + val; // 항상 - 붙임
+    function prependMinus(input) {
+      input.value = input.value.replace(/[^0-9]/g, ''); // 숫자만 허용
     }
 
     function calculateRecovery() {
-      const input = document.getElementById("lossInput").value;
+      const rawInput = document.getElementById("lossInput").value;
       const resultDiv = document.getElementById("result");
-      const loss = parseFloat(input);
 
-      if (isNaN(loss) || loss >= 0 || loss <= -100) {
-        resultDiv.innerText = "유효한 손실률을 입력하세요 (예: -40)";
+      if (!rawInput || isNaN(rawInput)) {
+        resultDiv.innerText = "손실률 숫자를 입력하세요 (예: 40)";
+        return;
+      }
+
+      const loss = -Math.abs(parseFloat(rawInput)); // 항상 음수로 처리
+      if (loss <= -100) {
+        resultDiv.innerText = "손실률은 -100% 이상일 수 없습니다.";
         return;
       }
 
