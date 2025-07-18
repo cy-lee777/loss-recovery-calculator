@@ -20,17 +20,28 @@
       text-align: center;
     }
 
-    label {
-      font-size: 20px;
-      display: block;
-      margin-bottom: 0.5em;
+    .input-group {
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+      margin-bottom: 1em;
     }
 
-    input {
-      font-size: 22px;
+    .input-group span {
       padding: 0.5em;
-      width: 100%;
-      box-sizing: border-box;
+      background: #eee;
+      border: 1px solid #ccc;
+      border-right: none;
+      border-radius: 5px 0 0 5px;
+    }
+
+    .input-group input {
+      padding: 0.5em;
+      font-size: 22px;
+      flex: 1;
+      border: 1px solid #ccc;
+      border-left: none;
+      border-radius: 0 5px 5px 0;
     }
 
     button {
@@ -56,34 +67,37 @@
 <body>
   <h1>손실 복구 계산기</h1>
 
-  <label for="lossInput">손실률 입력 (예: -40):</label>
-  <input
-    type="tel"
-    inputmode="numeric"
-    id="lossInput"
-    placeholder="예: 40"
-    oninput="prependMinus(this)"
-  />
+  <label for="lossInput">손실률 입력:</label>
+  <div class="input-group">
+    <span>-</span>
+    <input
+      type="tel"
+      inputmode="numeric"
+      id="lossInput"
+      placeholder="예: 40"
+      oninput="filterDigits(this)"
+    />
+  </div>
 
   <button onclick="calculateRecovery()">복구율 계산</button>
 
   <div id="result"></div>
 
   <script>
-    function prependMinus(input) {
-      input.value = input.value.replace(/[^0-9]/g, ''); // 숫자만 허용
+    function filterDigits(input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
     }
 
     function calculateRecovery() {
-      const rawInput = document.getElementById("lossInput").value;
+      const rawValue = document.getElementById("lossInput").value;
       const resultDiv = document.getElementById("result");
 
-      if (!rawInput || isNaN(rawInput)) {
+      if (!rawValue || isNaN(rawValue)) {
         resultDiv.innerText = "손실률 숫자를 입력하세요 (예: 40)";
         return;
       }
 
-      const loss = -Math.abs(parseFloat(rawInput)); // 항상 음수로 처리
+      const loss = -Math.abs(parseFloat(rawValue)); // 항상 음수 처리
       if (loss <= -100) {
         resultDiv.innerText = "손실률은 -100% 이상일 수 없습니다.";
         return;
