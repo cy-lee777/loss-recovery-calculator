@@ -1,66 +1,39 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>손실 복구 계산기</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2em;
-      background: #f5f5f5;
-    }
-    h1 {
-      color: #2d7f5e;
-    }
-    input {
-      font-size: 1.2em;
-      padding: 0.5em;
-      width: 120px;
-    }
-    button {
-      font-size: 1em;
-      padding: 0.5em 1em;
-      background-color: #2d7f5e;
-      color: white;
-      border: none;
-      border-radius: 5px;
-    }
-    #result {
-      margin-top: 1em;
-      font-size: 1.2em;
-    }
-  </style>
-</head>
-<body>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 2em;
+    background: #f5f5f5;
+    font-size: 18px; /* 💡 전체 기본 글씨 크기 키움 */
+  }
 
-  <h1>손실 복구 계산기</h1>
-  <label for="lossInput">손실률 (%)</label><br>
-  <input type="text" id="lossInput" value="-" oninput="forceNegative(this)" placeholder="예: -40"><br><br>
+  h1 {
+    color: #2d7f5e;
+    font-size: 32px; /* 💡 제목 더 크게 */
+  }
 
-  <button onclick="calculateRecovery()">복구율 계산</button>
+  label {
+    font-size: 20px;
+  }
 
-  <div id="result"></div>
+  input {
+    font-size: 22px;
+    padding: 0.5em;
+    width: 140px;
+  }
 
-  <script>
-    function forceNegative(input) {
-      let numOnly = input.value.replace(/[^0-9]/g, '');
-      input.value = '-' + numOnly;
-    }
+  button {
+    font-size: 20px;
+    padding: 0.6em 1.2em;
+    background-color: #2d7f5e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
 
-    function calculateRecovery() {
-      const input = document.getElementById('lossInput').value;
-      const loss = parseFloat(input);
-      if (isNaN(loss) || loss >= 0 || loss <= -100) {
-        document.getElementById('result').innerText = '올바른 손실률을 입력하세요. (예: -40)';
-        return;
-      }
-
-      const recovery = (100 / (100 + loss)) * 100 - 100;
-      document.getElementById('result').innerText =
-        `손실을 복구하려면 약 ${recovery.toFixed(2)}% 상승 필요`;
-    }
-  </script>
-
-</body>
-</html>
-
+  #result {
+    margin-top: 1.2em;
+    font-size: 22px;
+    color: #333;
+  }
+</style>
